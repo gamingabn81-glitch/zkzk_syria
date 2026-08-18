@@ -1,133 +1,2769 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>زكزك سوري</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>زكزك سوري!</title>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&display=swap');
 
-    * {
-      box-sizing: border-box;
-    }
+*{box-sizing:border-box}
 
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #111;
-    }
+:root{
+  --bg:#efe4cf;
+  --card:#fffaf0;
+  --dark:#241b15;
+  --brown:#5b3925;
+  --gold:#d69b32;
+  --green:#47734d;
+  --red:#a64235;
+  --shadow:0 12px 35px rgba(0,0,0,.22);
+}
 
-    body {
-      font-family: "Aref Ruqaa", serif;
-    }
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#111;
+}
 
-    /* شاشة الافتتاح */
-    .opening {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
+body{
+  font-family:"Aref Ruqaa",serif;
+  color:var(--dark);
+}
 
-      background-image:
-        linear-gradient(
-          rgba(255, 255, 255, 0.08),
-          rgba(255, 255, 255, 0.08)
-        ),
-        url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLh2yUrsPS6WAyQyFSYGQ2OI-MFtmrQ4kf_w6hnFsm4g&s=10");
+button{
+  font-family:inherit;
+  cursor:pointer;
+}
 
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+.hidden{display:none!important}
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+/* =========================
+   الافتتاح
+========================= */
 
-    /* طبقة خفيفة فوق الصورة */
-    .shade {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.08);
-    }
+.opening{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:
+    linear-gradient(rgba(255,255,255,.08),rgba(255,255,255,.08)),
+    url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLh2yUrsPS6WAyQyFSYGQ2OI-MFtmrQ4kf_w6hnFsm4g&s=10");
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:opacity .7s;
+}
 
-    /* المستطيل الأبيض */
-    .title-box {
-      position: relative;
-      z-index: 2;
+.opening.hide{
+  opacity:0;
+  pointer-events:none;
+}
 
-      background: #ffffff;
-      color: #000000;
+.shade{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.12);
+}
 
-      padding: 20px 48px;
-      min-width: 300px;
+.title-box{
+  position:relative;
+  z-index:2;
+  background:#fff;
+  color:#000;
+  padding:20px 48px;
+  min-width:300px;
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  transform:rotate(-4deg);
+  animation:titleAppear 1.4s ease-out forwards;
+}
 
-      border-radius: 24px;
+.title{
+  margin:0;
+  font-size:clamp(45px,9vw,90px);
+  font-weight:700;
+  line-height:1;
+  white-space:nowrap;
+}
 
-      box-shadow:
-        0 12px 35px rgba(0, 0, 0, 0.25);
+@keyframes titleAppear{
+  0%{opacity:0;transform:rotate(-8deg) scale(.75) translateY(40px)}
+  70%{opacity:1;transform:rotate(-4deg) scale(1.05)}
+  100%{opacity:1;transform:rotate(-4deg) scale(1)}
+}
 
-      transform: rotate(-4deg);
+/* =========================
+   التطبيق
+========================= */
 
-      animation: titleAppear 1.4s ease-out forwards;
-    }
+#app{
+  width:100%;
+  height:100%;
+  position:relative;
+  overflow:hidden;
+  background-size:cover;
+  background-position:center;
+  transition:background-image .4s;
+}
 
-    /* اسم اللعبة */
-    .title {
-      margin: 0;
+.app-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(250,244,232,.72);
+  pointer-events:none;
+}
 
-      font-size: clamp(45px, 9vw, 90px);
-      font-weight: 700;
+.screen{
+  position:absolute;
+  inset:0;
+  z-index:2;
+}
 
-      line-height: 1;
-      white-space: nowrap;
+/* =========================
+   الرئيسية
+========================= */
 
-      color: #000000;
-    }
+.home{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:30px;
+}
 
-    /* حركة ظهور العنوان */
-    @keyframes titleAppear {
+.game-name{
+  font-size:clamp(52px,10vw,105px);
+  margin:0 0 35px;
+  font-weight:700;
+  text-shadow:3px 4px 0 rgba(255,255,255,.8);
+}
 
-      0% {
-        opacity: 0;
-        transform:
-          rotate(-8deg)
-          scale(0.75)
-          translateY(40px);
-      }
+.start-btn{
+  border:0;
+  background:var(--dark);
+  color:#fff;
+  font-size:clamp(28px,5vw,48px);
+  padding:14px 70px;
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  transition:.2s;
+}
 
-      70% {
-        opacity: 1;
-        transform:
-          rotate(-4deg)
-          scale(1.05)
-          translateY(0);
-      }
+.start-btn:hover{
+  transform:scale(1.05);
+}
 
-      100% {
-        opacity: 1;
-        transform:
-          rotate(-4deg)
-          scale(1)
-          translateY(0);
-      }
-    }
-  </style>
+/* =========================
+   أزرار الزوايا
+========================= */
+
+.corner-btn{
+  position:absolute;
+  top:22px;
+  z-index:10;
+  border:0;
+  background:rgba(255,250,240,.95);
+  color:var(--dark);
+  border-radius:18px;
+  padding:10px 18px;
+  box-shadow:0 7px 20px rgba(0,0,0,.15);
+  font-size:22px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.shop-btn{right:22px}
+.tasks-btn{left:22px}
+
+.coin-box{
+  position:absolute;
+  top:25px;
+  right:50%;
+  transform:translateX(50%);
+  z-index:10;
+  background:var(--dark);
+  color:#fff;
+  border-radius:18px;
+  padding:8px 20px;
+  font-size:21px;
+}
+
+/* =========================
+   النوافذ
+========================= */
+
+.modal{
+  position:absolute;
+  inset:0;
+  z-index:50;
+  background:rgba(0,0,0,.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-card{
+  width:min(900px,95vw);
+  max-height:90vh;
+  overflow:auto;
+  background:var(--card);
+  border-radius:28px;
+  padding:28px;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  position:relative;
+}
+
+.modal-title{
+  margin:0 0 20px;
+  font-size:40px;
+  text-align:center;
+}
+
+.close-btn{
+  position:absolute;
+  left:18px;
+  top:15px;
+  border:0;
+  background:var(--red);
+  color:#fff;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  font-size:24px;
+}
+
+/* =========================
+   المتجر
+========================= */
+
+.shop-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:18px;
+}
+
+.shop-item{
+  background:#fff;
+  border-radius:22px;
+  padding:12px;
+  box-shadow:0 7px 20px rgba(0,0,0,.13);
+  text-align:center;
+}
+
+.shop-item img{
+  width:100%;
+  aspect-ratio:16/10;
+  object-fit:cover;
+  border-radius:17px;
+}
+
+.shop-item h3{
+  margin:8px 0;
+  font-size:24px;
+}
+
+.buy-btn{
+  width:100%;
+  border:0;
+  background:var(--gold);
+  color:#241b15;
+  border-radius:14px;
+  padding:9px;
+  font-size:20px;
+}
+
+.buy-btn.owned{
+  background:var(--green);
+  color:white;
+}
+
+/* =========================
+   المهام
+========================= */
+
+.task{
+  background:white;
+  border-radius:18px;
+  padding:15px;
+  margin:12px 0;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.task-title{
+  font-size:23px;
+  margin-bottom:5px;
+}
+
+.task-progress{
+  height:12px;
+  background:#ddd;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.task-progress div{
+  height:100%;
+  background:var(--green);
+}
+
+/* =========================
+   شاشة المراحل
+========================= */
+
+.stage-screen{
+  padding:30px;
+  overflow:auto;
+}
+
+.stage-title{
+  text-align:center;
+  font-size:46px;
+  margin:15px 0 25px;
+}
+
+.stage-grid{
+  width:min(1000px,95vw);
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:14px;
+}
+
+.stage-btn{
+  border:0;
+  min-height:100px;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
+  font-size:30px;
+  transition:.2s;
+}
+
+.stage-btn:hover{
+  transform:translateY(-4px);
+}
+
+.stage-btn.locked{
+  filter:grayscale(1);
+  opacity:.45;
+}
+
+.stage-btn.done{
+  background:#d8ead8;
+}
+
+/* =========================
+   شاشة السؤال
+========================= */
+
+.question-screen{
+  padding:20px;
+  overflow:auto;
+}
+
+.question-top{
+  width:min(1100px,95vw);
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.back-btn{
+  border:0;
+  background:rgba(255,255,255,.9);
+  border-radius:14px;
+  padding:8px 17px;
+  font-size:20px;
+}
+
+.timer{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:var(--dark);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  box-shadow:0 6px 20px rgba(0,0,0,.2);
+}
+
+.question-card{
+  width:min(1100px,95vw);
+  margin:18px auto 40px;
+  background:rgba(255,250,240,.97);
+  border-radius:30px;
+  padding:25px;
+  box-shadow:var(--shadow);
+}
+
+.question-text{
+  font-size:clamp(28px,5vw,45px);
+  text-align:center;
+  margin:5px 0 20px;
+}
+
+.answers{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.answer-btn{
+  border:3px solid transparent;
+  background:#fff;
+  border-radius:20px;
+  padding:15px;
+  font-size:25px;
+  box-shadow:0 5px 14px rgba(0,0,0,.12);
+  min-height:65px;
+}
+
+.answer-btn:hover{
+  border-color:var(--gold);
+}
+
+.answer-btn.correct{
+  background:#cce7cf;
+  border-color:#47734d;
+}
+
+.answer-btn.wrong{
+  background:#f2c9c4;
+  border-color:#a64235;
+}
+
+.image-question{
+  display:block;
+  width:min(430px,90%);
+  max-height:320px;
+  object-fit:cover;
+  margin:10px auto 22px;
+  border-radius:50%;
+  box-shadow:0 10px 25px rgba(0,0,0,.22);
+}
+
+.normal-image{
+  border-radius:20px;
+}
+
+.music-controls{
+  text-align:center;
+  margin:8px 0 15px;
+}
+
+.music-btn{
+  border:0;
+  background:var(--dark);
+  color:#fff;
+  padding:9px 20px;
+  border-radius:14px;
+  font-size:19px;
+}
+
+/* =========================
+   الكتابة
+========================= */
+
+.text-answer{
+  width:100%;
+  border:3px solid #ddd;
+  border-radius:18px;
+  padding:14px;
+  font-family:inherit;
+  font-size:26px;
+  text-align:center;
+  outline:none;
+}
+
+.submit-btn{
+  display:block;
+  margin:15px auto 0;
+  border:0;
+  background:var(--green);
+  color:#fff;
+  border-radius:16px;
+  padding:10px 40px;
+  font-size:24px;
+}
+
+/* =========================
+   الصور
+========================= */
+
+.image-answers{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.image-answer{
+  border:4px solid transparent;
+  background:white;
+  padding:7px;
+  border-radius:50%;
+  overflow:hidden;
+  aspect-ratio:1;
+}
+
+.image-answer img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+.image-answer.selected{
+  border-color:var(--gold);
+}
+
+/* =========================
+   السحب والتوصيل
+========================= */
+
+.match-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+}
+
+.match-column{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.match-item{
+  background:white;
+  border:3px solid transparent;
+  border-radius:50%;
+  min-height:78px;
+  padding:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  box-shadow:0 5px 15px rgba(0,0,0,.12);
+  cursor:grab;
+  user-select:none;
+}
+
+.match-image{
+  width:90px;
+  height:90px;
+  padding:4px;
+}
+
+.match-image img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.match-item.dragging{
+  opacity:.45;
+}
+
+.match-item.correct-match{
+  background:#d4ead5;
+  border-color:var(--green);
+}
+
+.match-item.wrong-match{
+  background:#f2cccc;
+  border-color:var(--red);
+}
+
+.match-submit{
+  display:block;
+  margin:20px auto 0;
+  border:0;
+  background:var(--green);
+  color:#fff;
+  padding:10px 35px;
+  border-radius:15px;
+  font-size:23px;
+}
+
+/* =========================
+   ترتيب الأسماء
+========================= */
+
+.sort-list{
+  width:min(600px,95%);
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.sort-item{
+  background:#fff;
+  border-radius:20px;
+  padding:15px;
+  text-align:center;
+  font-size:27px;
+  box-shadow:0 5px 15px rgba(0,0,0,.12);
+  cursor:grab;
+}
+
+/* =========================
+   نتيجة السؤال
+========================= */
+
+.result{
+  text-align:center;
+  font-size:28px;
+  margin-top:18px;
+  min-height:40px;
+}
+
+.result.good{color:var(--green)}
+.result.bad{color:var(--red)}
+
+.next-btn{
+  display:block;
+  margin:15px auto 0;
+  border:0;
+  background:var(--dark);
+  color:#fff;
+  padding:10px 40px;
+  border-radius:16px;
+  font-size:24px;
+}
+
+/* =========================
+   responsive
+========================= */
+
+@media(max-width:700px){
+  .stage-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .answers{
+    grid-template-columns:1fr;
+  }
+
+  .image-answers{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .match-layout{
+    grid-template-columns:1fr;
+  }
+
+  .corner-btn{
+    font-size:18px;
+    padding:8px 12px;
+  }
+
+  .coin-box{
+    top:80px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="opening">
+<!-- =========================
+     الافتتاح
+========================= -->
 
-    <div class="shade"></div>
+<div class="opening" id="opening">
+  <div class="shade"></div>
 
-    <div class="title-box">
-      <h1 class="title">زكزك سوري</h1>
+  <div class="title-box">
+    <h1 class="title">زكزك سوري!</h1>
+  </div>
+</div>
+
+
+<!-- =========================
+     التطبيق
+========================= -->
+
+<div id="app">
+
+  <div class="app-overlay"></div>
+
+  <!-- الرئيسية -->
+  <section class="screen home" id="homeScreen">
+
+    <button class="corner-btn shop-btn" onclick="openShop()">
+      🛒 المتجر
+    </button>
+
+    <button class="corner-btn tasks-btn" onclick="openTasks()">
+      🎯 المهام
+    </button>
+
+    <div class="coin-box">
+      🪙 <span id="coinCount">1000</span>
+    </div>
+
+    <h1 class="game-name">زكزك سوري!</h1>
+
+    <button class="start-btn" onclick="showStages()">
+      ابدأ اللعبة
+    </button>
+
+  </section>
+
+
+  <!-- المراحل -->
+  <section class="screen stage-screen hidden" id="stageScreen">
+
+    <button class="back-btn" onclick="goHome()">رجوع</button>
+
+    <h2 class="stage-title">اختر المرحلة</h2>
+
+    <div class="stage-grid" id="stageGrid"></div>
+
+  </section>
+
+
+  <!-- السؤال -->
+  <section class="screen question-screen hidden" id="questionScreen">
+
+    <div class="question-top">
+      <button class="back-btn" onclick="showStages()">المراحل</button>
+      <div class="timer" id="timer">10</div>
+    </div>
+
+    <div class="question-card">
+
+      <div id="questionContent"></div>
+
+      <div id="result" class="result"></div>
+
+      <button id="nextBtn" class="next-btn hidden" onclick="nextQuestion()">
+        السؤال التالي
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- المتجر -->
+  <div class="modal hidden" id="shopModal">
+
+    <div class="modal-card">
+
+      <button class="close-btn" onclick="closeShop()">×</button>
+
+      <h2 class="modal-title">🛒 متجر الخلفيات</h2>
+
+      <div class="shop-grid" id="shopGrid"></div>
+
     </div>
 
   </div>
+
+
+  <!-- المهام -->
+  <div class="modal hidden" id="tasksModal">
+
+    <div class="modal-card">
+
+      <button class="close-btn" onclick="closeTasks()">×</button>
+
+      <h2 class="modal-title">🎯 المهام</h2>
+
+      <div id="tasksContent"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- يوتيوب للموسيقى -->
+<div id="youtubePlayer"
+     style="position:fixed;left:-10000px;top:-10000px;width:1px;height:1px;">
+</div>
+
+
+<script>
+
+/* =========================================================
+   بيانات اللعبة
+========================================================= */
+
+const backgrounds = [
+
+  {
+    id:1,
+    name:"خلفية 1",
+    price:500,
+    url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn7-l7KhdI-h14yRR36MLUH_1f234lYxAHBN8t9zs5Nrdbm0eLKSQ1d64&s=10"
+  },
+
+  {
+    id:2,
+    name:"خلفية 2",
+    price:500,
+    url:"https://pbs.twimg.com/media/DRM9qoYXcAABhYp.jpg"
+  },
+
+  {
+    id:3,
+    name:"خلفية 3",
+    price:500,
+    url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmU8VsDrRALaFCzvzTLj6KMfQ5mNMF55hSx0ExrHN6XQ&s=10"
+  },
+
+  {
+    id:4,
+    name:"خلفية 4",
+    price:500,
+    url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP3T2dKifSDHmuQJckmoFahi8o3CSyrSoFA_y_ixOrcxckhyvtCSa1WME&s=10"
+  }
+
+];
+
+
+/* =========================================================
+   الأسئلة
+========================================================= */
+
+const stages = [
+
+/* =========================
+   المرحلة 1
+========================= */
+
+[
+  {
+    type:"choice",
+    q:"جملة قالها ممثل بدوره: «إي سيدي، حط بالمخرج» مين قالها؟",
+    options:["حسن دكاك","ياسر العظمة","خالد تاجا","قصي خولي"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"شو اسم المسلسل؟",
+    image:"https://www.althania.tv/sites/default/files/styles/news_large/public/2025-11/4444_1.jpg.webp?itok=IJaBqi3T",
+    options:["الفصول الأربعة","الانتظار","كسر عضم","غزلان في غابة الذئاب"],
+    correct:0,
+    music:"7kR1TX6O6B4"
+  },
+
+  {
+    type:"choice",
+    q:"«اسأل مجرّب ولا تسأل ...؟»",
+    options:["حكيم","خبير","قريب","طبيب"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"مين قال: «شكلين ما بيحكي»؟",
+    options:["أبو شهاب","أبو عصام","نصار عريبي","أبو النار"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"سورية تتكوّن من 15 محافظة؟",
+    options:["صح","خطأ"],
+    correct:1
+  }
+],
+
+
+/* =========================
+   المرحلة 2
+========================= */
+
+[
+  {
+    type:"text",
+    q:"ليش المختار ختم كل الضيعة؟",
+    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV3Ai0QGS4KjkBnE2_m_jSfM8sICHpI3gqwwzA5-RYIQ&s=10",
+    accepted:["لقى الختم","لانو لقى الختم","لأنه لقى الختم","عشان لقى الختم","لأنو لقى الختم"]
+  },
+
+  {
+    type:"choice",
+    q:"اسأل مجرّب ولا تسأل ...؟",
+    options:["حكيم","خبير","قريب"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"مين قال: «شكلين ما بيحكي»؟",
+    options:["أبو شهاب","أبو عصام","نصار عريبي","أبو النار"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"شو رد أبو عصام لما قالت مرتو له: «فشرت»؟",
+    options:[
+      "انتي طالق",
+      "انتي طالق بالتلاتة",
+      "انتي من طريق وأنا من طريق",
+      "ما عم أعرف أحواكي"
+    ],
+    correct:3
+  },
+
+  {
+    type:"match",
+    q:"وصّل اسم الشخصية بالصورة المناسبة",
+    pairs:[
+      {
+        name:"أبو مريم",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERfjGRF7l9gAN8V-Db-93ABwIhuPsnHCzgVbOqmw_Uw&s=10"
+      },
+      {
+        name:"أبو نجيب",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIpA9Y7bgOm4PI-IUPHNIswlBxD_L4zRAxV0g69630fw&s=10"
+      },
+      {
+        name:"أبو خميس",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsvHlICjjJbfIyfc8gKccv3bYoVm3lVfkg-TjF5jHfHA&s=10"
+      },
+      {
+        name:"أبو نايف",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDgYrCJmU63YzpSGNEudy7HNNx3djRYVrryIQsYLQw6A&s=10"
+      }
+    ]
+  },
+
+  {
+    type:"choice",
+    q:"عدد أجزاء مسلسل «الولادة من الخاصرة» 3 أجزاء؟",
+    options:["صح","خطأ"],
+    correct:0
+  }
+],
+
+
+/* =========================
+   المرحلة 3
+========================= */
+
+[
+  {
+    type:"imageChoice",
+    q:"مين ما مثّل بمسلسل «غوار الطوشة»؟",
+    images:[
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8Bz7S4Dh3-9LdLN4GzyQxbF4JSO9zW1mmm3rvwThfqw&s=10",
+      "https://media0106.elcinema.com/uploads/_640x_df5f24f01b15002dfa358d3448d37ef75df1761f1c96ae53f71d7b39b5098f76.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXwd_rN5pi26ypK8Bh6JXKfPTE3xLAH4pg1rGLPdPi4A&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx7xVUMyqODFtLiOTz55z05sLoFCFp7wJv1hSTkLW4KQ&s=10"
+    ],
+    correct:3
+  },
+
+  {
+    type:"choice",
+    q:"«اللي ستحو ...؟»",
+    options:["ماتو","ختفو","انقرضو"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"شو اسم الحلقة؟",
+    image:"https://i.ytimg.com/vi/UTMfiMfLjSw/mqdefault.jpg",
+    options:["العربي الثقيل","لا للغمر","عفاف","بيسه بيسه نو"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"«آه يا مثقف آه» مين قالها؟",
+    options:["أبو نيبال","المقدم رؤوف","أبو النار"],
+    correct:1
+  },
+
+  {
+    type:"choice",
+    q:"أعلى قمة في سوريا هي جبل الشيخ؟",
+    options:["صح","خطأ"],
+    correct:0
+  },
+
+  {
+    type:"sort",
+    q:"اسحب أسماء الفنانين ورتّبهم من الأكبر عمرًا إلى الأصغر",
+    items:["باسم ياخور","قصي خولي","مكسيم خليل"],
+    correct:["باسم ياخور","قصي خولي","مكسيم خليل"]
+  },
+
+  {
+    type:"choice",
+    q:"«المايونيز مو توم، المايونيز مصنوع من المايونيز» مين قالها؟",
+    options:["مسرة","مطيع","رمزية","سلطة"],
+    correct:2
+  }
+],
+
+
+/* =========================
+   المرحلة 4
+========================= */
+
+[
+  {
+    type:"choice",
+    q:"شو اسم المسلسل؟",
+    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqCr3j3Ldi6iHr3ZgauEK6gcezwjMPQVYZ4dX481DeIg&s=10",
+    options:["سيرة حب","أهل الغرام","تخت شرقي","مدرسة الحب"],
+    correct:1
+  },
+
+  {
+    type:"choice",
+    q:"«متل الأطرش ...؟»",
+    options:["بالزفة","بالقعدة","بالحفلة"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"«الله لا يوجهلو الخير» مين قالها؟",
+    options:["حسن دكاك","ياسر العظمة","خالد تاجا","قصي خولي"],
+    correct:2
+  },
+
+  {
+    type:"choice",
+    q:"قلعة صلاح الدين تقع في اللاذقية؟",
+    options:["صح","خطأ"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"كمّل المثل: «إجت ______ تفرح، ما لقت إلها مطرح»",
+    options:["العروس","الجارة","الحزينة"],
+    correct:2
+  },
+
+  {
+    type:"choice",
+    q:"نهر العاصي يجري من الشمال إلى الجنوب في سوريا؟",
+    options:["صح","خطأ"],
+    correct:1
+  }
+],
+
+
+/* =========================
+   المرحلة 5
+========================= */
+
+[
+  {
+    type:"choice",
+    q:"«تيتي تيتي، متل ما رحتي متل ما ...؟»",
+    options:["تيتي","ما جيتي","ما نمتي","ما رحتي"],
+    correct:1
+  },
+
+  {
+    type:"choice",
+    q:"«وينك وينك يا ناموسة» مين قالها؟",
+    options:["أبو بدر","الواوي","أبو غالب","النمس"],
+    correct:3
+  },
+
+  {
+    type:"match",
+    q:"وصّل اسم الشخصية بالصورة المناسبة",
+    pairs:[
+      {
+        name:"أبو الميز",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhYrQUPKkb5Azr-1jKuf6BPUjVD2z0rewzI9RGWieYGw&s=10"
+      },
+      {
+        name:"برهوم",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMjAX16wrGcrniqex8C7wkqZ8luSuEWhZRcQ3c00Ejsg&s=10"
+      },
+      {
+        name:"فخري",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_39vmTfvous-sjsOH00yEM8m_EclVVRC5Jz6Nb_NzHA&s=10"
+      },
+      {
+        name:"فيديل",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYp3C_jvYebSmGoC7_YvU8UTfzaItbQ8q1EvDR1rV0nQ&s=10"
+      }
+    ]
+  },
+
+  {
+    type:"choice",
+    q:"شو مهنة أبو جانتي؟",
+    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAKmwmEhiOQQSI7sJpn6H83O35Eq2AdFgQjuaZ3BXgDQ&s=10",
+    options:["طيار","شوفير تكسي","مهندس"],
+    correct:1
+  },
+
+  {
+    type:"choice",
+    q:"مدينة معلولا ما زال سكانها يتحدثون الآرامية؟",
+    options:["صح","خطأ"],
+    correct:0
+  },
+
+  {
+    type:"imageChoice",
+    q:"مين الشخص اللي عنده تلت كلاوي؟",
+    images:[
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLo4sESmI9j65-Ndo4FtHLilzfa0v5uWqitQ&s",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVFy5zcZ2xFfuj0_XK8IWUGJ21knOIRbmDqzbx99drMw&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAETXS6ymDtYcvfyM0sIDyiEl6rUuY3GICGGC6pHW7lQ&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdLXuzHkPcCwix_s2kiiR2zKyNmoQXTBVLsXtoNtLzxg&s=10"
+    ],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"كمّل المثل: «يا مأمّنة بالرجال متل ______ بالغربال»",
+    options:["المي","السكر","الطحين","الخضرا"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"«مين سمير؟ شو هي هيك؟» مين قالها؟",
+    options:["أبو جانتي","أبو ليلى","أبو الحروف","أبو الملوك"],
+    correct:1
+  },
+
+  {
+    type:"choice",
+    q:"مين أقدم: جبلة ولا اللاذقية؟",
+    options:["جبلة","اللاذقية"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"شو قال سلطة؟",
+    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9dQkyGXte6lWgD3rn6VmxomraImjh6HYd9vvawqGlZg&s=10",
+    options:[
+      "انتي جميلة معك تشعيلة؟",
+      "أنا وإنتي وحمدي",
+      "إذا إنت سلطة أخوك شو اسمه متبل؟",
+      "ذا ماسورة إذ مكسورة"
+    ],
+    correct:3
+  }
+],
+
+
+/* =========================
+   المرحلة 6
+========================= */
+
+[
+  {
+    type:"choice",
+    q:"كمّل المثل: «العز للرز و ______ شنق حالو»",
+    options:["الزعتر","الحمص","البرغل","الخيار"],
+    correct:2
+  },
+
+  {
+    type:"imageChoice",
+    q:"«ولك دهااااب!» مين قالها؟",
+    images:[
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnNcf2p9jOrDQ8SdQddAyTTlJJeKc94_F7rAcBXq_vkw&s=10",
+      "https://i1.sndcdn.com/artworks-000014416924-pr5umx-t500x500.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR1LViel9Yr4bVXv3rGzQMkQXlQzQ017NKQqxDIYrazQ&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqMb7NejvsyeQDjvchAvoXuDDeYjosgBfu6UigPRjCtg&s=10"
+    ],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"«فارس الدراما العربية» هو سلوم حداد؟",
+    options:["صح","خطأ"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"دمشق هي أكبر محافظة في سوريا من حيث المساحة؟",
+    options:["خطأ","صح"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"الفنانة نورمان أسعد اعتزلت الفن عام 2007؟",
+    options:["صح","خطأ"],
+    correct:0
+  }
+],
+
+
+/* =========================
+   المرحلة 7
+========================= */
+
+[
+  {
+    type:"choice",
+    q:"كمّل المثل: «الباب اللي بيجيك منو ______، سدو واستريح»",
+    options:["إزعاج","هوا","نار","ريح"],
+    correct:3
+  },
+
+  {
+    type:"choice",
+    q:"«أبوك يا الكوندشن!» مين قالها؟",
+    options:["فرج","أبو يعرب","أبو كرعوبة","أبو كيروز"],
+    correct:3
+  },
+
+  {
+    type:"choice",
+    q:"مدرج بصرى معلم أثري بدرعا؟",
+    options:["صح","خطأ"],
+    correct:0
+  },
+
+  {
+    type:"match",
+    q:"وصّل اسم الشخصية بالصورة المناسبة",
+    pairs:[
+      {
+        name:"زهرة",
+        image:"https://static1.personalitydatabase.net/2/pdb-images-prod/a9b71978/profile_images/bc2f3c5c1afb4a09ba921a6774b0c403.png"
+      },
+      {
+        name:"أبو محمود",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzgzb_XIv_mPe4KBQ3PyMutm1cKM8HKG6pMrhqE-UBOQ&s=10"
+      },
+      {
+        name:"جميل",
+        image:"https://feneks.net/images/%D9%85%D9%85%D8%AF%D9%88%D8%AD_%D8%A7%D9%84%D8%A3%D8%B7%D8%B1%D8%B4.jpg"
+      },
+      {
+        name:"نجيب",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP2uJBqlgrkD-TLtxHzZdV0urAafvQiXZoTdJgSMt6vQ&s"
+      }
+    ]
+  },
+
+  {
+    type:"choice",
+    q:"حلاوة الجبن حمصية؟",
+    options:["صح","خطأ"],
+    correct:1
+  }
+],
+
+
+/* =========================
+   المرحلة 8
+========================= */
+
+[
+  {
+    type:"choice",
+    q:"شو اسم المسلسل؟",
+    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHkKheXHM6Cz4LHCNsYmieXbf0oLzB5cKkxPOLr3ssJg&s=10",
+    options:["هومي هون","الفصول الأربعة","مرسوم عائلي","الانتظار"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"كمّل المثل: «اللي إيده بالمي مو متل اللي إيده ______»",
+    options:["بالفار","بالنار","بالغار","بالحرارة"],
+    correct:1
+  },
+
+  {
+    type:"choice",
+    q:"«ماذا يطلقني ما يطلقني؟ هل الشغلة حساء؟» مين هي؟",
+    options:["فيحاء","ميسون","ياسمين","مريم"],
+    correct:1
+  },
+
+  {
+    type:"choice",
+    q:"«قديش الكلب وفي، هي أوفى من الكلب» مين قالتها؟",
+    options:["عشتار","طرفة","دنيا","رمزية"],
+    correct:1
+  },
+
+  {
+    type:"choice",
+    q:"«بيكوز ورا بيكوز» مين قالها؟",
+    options:["أبو ليلى","أبو جانتي","سعيد","أبو النواس"],
+    correct:1
+  },
+
+  {
+    type:"choice",
+    q:"كمّل: «______ بالدنيا مزمر، بالآخرة ______»",
+    options:["عازف","تايه","نعسان","مطبل"],
+    correct:3
+  },
+
+  {
+    type:"choice",
+    q:"«آمنت بالله على هالنهار» مين قالها؟",
+    options:["حسن دكاك","ياسر العظمة","خالد تاجا","حسني البورظان"],
+    correct:1
+  }
+],
+
+
+/* =========================
+   المرحلة 9
+========================= */
+
+[
+  {
+    type:"choice",
+    q:"كمّل المثل: «إجا ليكحّلها ______»",
+    options:["خربها","عمرها","صلحها","عماها"],
+    correct:3
+  },
+
+  {
+    type:"choice",
+    q:"«إذا أردنا أن نعرف ماذا في إيطاليا، يجب أن نعرف ماذا في البرازيل» مين قالها؟",
+    options:["حسني البورظان","منى واصف","ياسر العظمة","دريد لحام"],
+    correct:0
+  },
+
+  {
+    type:"choice",
+    q:"شو اسم حبيبة غسان في «أيام الدراسة»؟",
+    options:["راما","مقبولة","حسناء","خلود"],
+    correct:1
+  },
+
+  {
+    type:"match",
+    q:"وصّل اسم الشخصية بالصورة المناسبة",
+    pairs:[
+      {
+        name:"سومر",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNdRyRJirhc9GXgndW5Op3PTiP4YCxE-hhm37zPNC2iA&s=10"
+      },
+      {
+        name:"صياح",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpo6CTSX6vduytqUyjQIjPeGUJpWFFOt92IEWF5imYNw&s=10"
+      },
+      {
+        name:"عامر",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRn0bCSyYm8QG8LdXIBQ1ZXQb9pzSfvH0MsHvg3Ao-OA&s=10"
+      },
+      {
+        name:"أيهم",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUVMy1Ljj2kpzaNWr1Hpfw_bL0vpya27GLOF7BizVARQ&s=10"
+      }
+    ]
+  },
+
+  {
+    type:"choice",
+    q:"كمّل المثل: «يلي ما بتزيّنو عروقو، ما بتزيّنو ______»",
+    options:["تيابو","أخلاقو","خروقو","سعته"],
+    correct:2
+  }
+],
+
+
+/* =========================
+   المرحلة 10
+========================= */
+
+[
+  {
+    type:"choice",
+    q:"شو أسماء الشخصيات؟",
+    image:"https://i.ytimg.com/vi/Hxsb9VcAm24/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCuuuPHs3iE3RxYxRsR6P-geZAenQ",
+    options:[
+      "أبو نادر وعدنان وحامد",
+      "جاب وأيهم وأدهم",
+      "أبو فارس وعماد ومروان",
+      "عماد وعدنان ومروان"
+    ],
+    correct:3
+  },
+
+  {
+    type:"choice",
+    q:"كمّل المثل: «القرد بعين أمو ______»",
+    options:["أرنب","عجل","خاروف","غزال"],
+    correct:3
+  },
+
+  {
+    type:"choice",
+    q:"«الحب هو هناء، هناء وبس» مين قالها؟",
+    options:["إبراهيم","سهيل","عبدو","عروة"],
+    correct:3
+  },
+
+  {
+    type:"choice",
+    q:"«طويويس» مين قالها؟",
+    options:["همشري","الادعشري","عصمت","غزال"],
+    correct:3
+  },
+
+  {
+    type:"choice",
+    q:"شو اسم المسلسل؟",
+    image:"https://i.ytimg.com/vi/VSJS1gRfryY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBenwFnoQARKT75aPKX27g2aiaTCw",
+    options:["الخوالي","ليالي الصالحية","باب الحارة","بروكار"],
+    correct:3
+  }
+]
+
+];
+
+
+/* =========================================================
+   حالة اللعبة
+========================================================= */
+
+let coins = Number(localStorage.getItem("zq_coins"));
+
+if(!Number.isFinite(coins)){
+  coins = 1000;
+}
+
+let ownedBackgrounds =
+  JSON.parse(localStorage.getItem("zq_backgrounds") || "[0]");
+
+let selectedBackground =
+  Number(localStorage.getItem("zq_selected_background") || 0);
+
+let completedStages =
+  Number(localStorage.getItem("zq_completed_stages") || 0);
+
+let currentStage = 0;
+let currentQuestion = 0;
+let timerInterval = null;
+let timeLeft = 10;
+let questionLocked = false;
+
+let draggedName = null;
+let matchAssignments = {};
+
+let sortDragged = null;
+
+let musicPlayer = null;
+let musicPlaying = false;
+
+
+/* =========================================================
+   العناصر
+========================================================= */
+
+const opening = document.getElementById("opening");
+const app = document.getElementById("app");
+const coinCount = document.getElementById("coinCount");
+
+const homeScreen = document.getElementById("homeScreen");
+const stageScreen = document.getElementById("stageScreen");
+const questionScreen = document.getElementById("questionScreen");
+
+const questionContent = document.getElementById("questionContent");
+const resultBox = document.getElementById("result");
+const nextBtn = document.getElementById("nextBtn");
+const timerEl = document.getElementById("timer");
+
+
+/* =========================================================
+   الافتتاح
+========================================================= */
+
+setTimeout(()=>{
+  opening.classList.add("hide");
+
+  setTimeout(()=>{
+    opening.style.display="none";
+  },700);
+
+},2200);
+
+
+/* =========================================================
+   الخلفية الحالية
+========================================================= */
+
+function applyBackground(){
+
+  if(selectedBackground === 0){
+
+    app.style.backgroundImage =
+      'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLh2yUrsPS6WAyQyFSYGQ2OI-MFtmrQ4kf_w6hnFsm4g&s=10")';
+
+  }else{
+
+    const bg = backgrounds.find(x=>x.id===selectedBackground);
+
+    if(bg){
+      app.style.backgroundImage = `url("${bg.url}")`;
+    }
+
+  }
+}
+
+applyBackground();
+
+
+/* =========================================================
+   العملات
+========================================================= */
+
+function updateCoins(){
+
+  coinCount.textContent = coins;
+
+  localStorage.setItem("zq_coins",coins);
+
+}
+
+updateCoins();
+
+
+function addCoins(amount){
+
+  coins += amount;
+
+  updateCoins();
+
+}
+
+
+/* =========================================================
+   التنقل
+========================================================= */
+
+function hideAllScreens(){
+
+  homeScreen.classList.add("hidden");
+  stageScreen.classList.add("hidden");
+  questionScreen.classList.add("hidden");
+
+}
+
+
+function goHome(){
+
+  stopTimer();
+  stopMusic();
+
+  hideAllScreens();
+
+  homeScreen.classList.remove("hidden");
+
+}
+
+
+function showStages(){
+
+  stopTimer();
+  stopMusic();
+
+  hideAllScreens();
+
+  stageScreen.classList.remove("hidden");
+
+  renderStages();
+
+}
+
+
+function renderStages(){
+
+  const grid = document.getElementById("stageGrid");
+
+  grid.innerHTML = "";
+
+  stages.forEach((stage,index)=>{
+
+    const btn = document.createElement("button");
+
+    btn.className = "stage-btn";
+
+    const unlocked =
+      index === 0 || index <= completedStages;
+
+    if(!unlocked){
+      btn.classList.add("locked");
+      btn.innerHTML = `🔒<br>المرحلة ${index+1}`;
+    }else{
+
+      if(index < completedStages){
+        btn.classList.add("done");
+        btn.innerHTML = `✓<br>المرحلة ${index+1}`;
+      }else{
+        btn.innerHTML = `المرحلة ${index+1}`;
+      }
+
+      btn.onclick = ()=>startStage(index);
+
+    }
+
+    grid.appendChild(btn);
+
+  });
+
+}
+
+
+/* =========================================================
+   بدء المرحلة
+========================================================= */
+
+function startStage(index){
+
+  currentStage = index;
+  currentQuestion = 0;
+
+  hideAllScreens();
+
+  questionScreen.classList.remove("hidden");
+
+  renderQuestion();
+
+}
+
+
+/* =========================================================
+   السؤال الحالي
+========================================================= */
+
+function getCurrentQuestion(){
+
+  return stages[currentStage][currentQuestion];
+
+}
+
+
+function renderQuestion(){
+
+  stopTimer();
+  stopMusic();
+
+  questionLocked = false;
+
+  resultBox.textContent = "";
+  resultBox.className = "result";
+
+  nextBtn.classList.add("hidden");
+
+  const q = getCurrentQuestion();
+
+  questionContent.innerHTML = "";
+
+  if(q.image){
+
+    const img = document.createElement("img");
+
+    img.src = q.image;
+
+    img.className =
+      q.type === "imageChoice"
+      ? "image-question"
+      : "image-question normal-image";
+
+    questionContent.appendChild(img);
+
+  }
+
+  const text = document.createElement("div");
+
+  text.className = "question-text";
+
+  text.textContent = q.q;
+
+  questionContent.appendChild(text);
+
+
+  if(q.music){
+
+    const controls = document.createElement("div");
+
+    controls.className = "music-controls";
+
+    const button = document.createElement("button");
+
+    button.className = "music-btn";
+
+    button.textContent = "🎵 تشغيل الموسيقى";
+
+    button.onclick = ()=>{
+
+      if(musicPlaying){
+        stopMusic();
+        button.textContent = "🎵 تشغيل الموسيقى";
+      }else{
+        playMusic(q.music);
+        button.textContent = "⏸️ إيقاف الموسيقى";
+      }
+
+    };
+
+    controls.appendChild(button);
+
+    questionContent.appendChild(controls);
+
+  }
+
+
+  if(q.type === "choice"){
+
+    renderChoice(q);
+
+  }else if(q.type === "imageChoice"){
+
+    renderImageChoice(q);
+
+  }else if(q.type === "text"){
+
+    renderTextQuestion(q);
+
+  }else if(q.type === "match"){
+
+    renderMatch(q);
+
+  }else if(q.type === "sort"){
+
+    renderSort(q);
+
+  }
+
+
+  const duration =
+    q.type === "match" ? 30 : 10;
+
+  startTimer(duration);
+
+}
+
+
+/* =========================================================
+   اختيار
+========================================================= */
+
+function renderChoice(q){
+
+  const answers = document.createElement("div");
+
+  answers.className = "answers";
+
+  q.options.forEach((option,index)=>{
+
+    const btn = document.createElement("button");
+
+    btn.className = "answer-btn";
+
+    btn.textContent = option;
+
+    btn.onclick = ()=>answerChoice(index,btn);
+
+    answers.appendChild(btn);
+
+  });
+
+  questionContent.appendChild(answers);
+
+}
+
+
+function answerChoice(index,btn){
+
+  if(questionLocked)return;
+
+  questionLocked = true;
+
+  stopTimer();
+
+  const q = getCurrentQuestion();
+
+  const buttons =
+    document.querySelectorAll(".answer-btn");
+
+  buttons.forEach(b=>b.disabled=true);
+
+  if(index === q.correct){
+
+    btn.classList.add("correct");
+
+    showCorrect();
+
+  }else{
+
+    btn.classList.add("wrong");
+
+    if(buttons[q.correct]){
+      buttons[q.correct].classList.add("correct");
+    }
+
+    showWrong();
+
+  }
+
+}
+
+
+/* =========================================================
+   صورة
+========================================================= */
+
+function renderImageChoice(q){
+
+  const wrap = document.createElement("div");
+
+  wrap.className = "image-answers";
+
+  q.images.forEach((src,index)=>{
+
+    const btn = document.createElement("button");
+
+    btn.className = "image-answer";
+
+    const img = document.createElement("img");
+
+    img.src = src;
+
+    btn.appendChild(img);
+
+    btn.onclick = ()=>{
+
+      if(questionLocked)return;
+
+      answerImage(index,btn);
+
+    };
+
+    wrap.appendChild(btn);
+
+  });
+
+  questionContent.appendChild(wrap);
+
+}
+
+
+function answerImage(index,btn){
+
+  if(questionLocked)return;
+
+  questionLocked = true;
+
+  stopTimer();
+
+  const q = getCurrentQuestion();
+
+  const all =
+    document.querySelectorAll(".image-answer");
+
+  all.forEach(x=>x.disabled=true);
+
+  if(index===q.correct){
+
+    btn.classList.add("correct");
+
+    showCorrect();
+
+  }else{
+
+    btn.classList.add("wrong");
+
+    if(all[q.correct]){
+      all[q.correct].classList.add("correct");
+    }
+
+    showWrong();
+
+  }
+
+}
+
+
+/* =========================================================
+   إجابة كتابية
+========================================================= */
+
+function normalizeText(text){
+
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/[إأآ]/g,"ا")
+    .replace(/ة/g,"ه")
+    .replace(/ى/g,"ي")
+    .replace(/[ًٌٍَُِّْـ]/g,"")
+    .replace(/\s+/g," ");
+
+}
+
+
+function renderTextQuestion(q){
+
+  const input =
+    document.createElement("input");
+
+  input.className = "text-answer";
+
+  input.placeholder =
+    "اكتب إجابتك هنا...";
+
+  const submit =
+    document.createElement("button");
+
+  submit.className = "submit-btn";
+
+  submit.textContent = "تأكيد";
+
+  submit.onclick = ()=>{
+
+    if(questionLocked)return;
+
+    const answer =
+      normalizeText(input.value);
+
+    const accepted =
+      q.accepted.map(normalizeText);
+
+    if(!answer){
+      return;
+    }
+
+    questionLocked=true;
+
+    stopTimer();
+
+    if(accepted.includes(answer)){
+
+      showCorrect();
+
+    }else{
+
+      showWrong();
+
+    }
+
+  };
+
+  input.addEventListener("keydown",e=>{
+
+    if(e.key==="Enter"){
+      submit.click();
+    }
+
+  });
+
+  questionContent.appendChild(input);
+
+  questionContent.appendChild(submit);
+
+}
+
+
+/* =========================================================
+   التوصيل
+========================================================= */
+
+function shuffleArray(array){
+
+  const a=[...array];
+
+  for(let i=a.length-1;i>0;i--){
+
+    const j=Math.floor(Math.random()*(i+1));
+
+    [a[i],a[j]]=[a[j],a[i]];
+
+  }
+
+  return a;
+
+}
+
+
+function renderMatch(q){
+
+  matchAssignments = {};
+
+  const layout =
+    document.createElement("div");
+
+  layout.className="match-layout";
+
+  const names =
+    shuffleArray(q.pairs);
+
+  const images =
+    shuffleArray(q.pairs);
+
+  const namesCol =
+    document.createElement("div");
+
+  namesCol.className="match-column";
+
+  const imagesCol =
+    document.createElement("div");
+
+  imagesCol.className="match-column";
+
+
+  names.forEach(pair=>{
+
+    const item =
+      document.createElement("div");
+
+    item.className="match-item";
+
+    item.textContent=pair.name;
+
+    item.draggable=true;
+
+    item.dataset.name=pair.name;
+
+    item.addEventListener("dragstart",()=>{
+
+      draggedName=pair.name;
+
+      item.classList.add("dragging");
+
+    });
+
+    item.addEventListener("dragend",()=>{
+
+      item.classList.remove("dragging");
+
+    });
+
+    namesCol.appendChild(item);
+
+  });
+
+
+  images.forEach(pair=>{
+
+    const item =
+      document.createElement("div");
+
+    item.className=
+      "match-item match-image";
+
+    item.dataset.answer=pair.name;
+
+    const img =
+      document.createElement("img");
+
+    img.src=pair.image;
+
+    item.appendChild(img);
+
+    item.addEventListener("dragover",e=>{
+      e.preventDefault();
+    });
+
+    item.addEventListener("drop",e=>{
+
+      e.preventDefault();
+
+      if(questionLocked)return;
+
+      if(draggedName){
+
+        matchAssignments[pair.name]=draggedName;
+
+        item.style.borderColor="var(--gold)";
+
+        draggedName=null;
+
+      }
+
+    });
+
+    imagesCol.appendChild(item);
+
+  });
+
+
+  layout.appendChild(namesCol);
+
+  layout.appendChild(imagesCol);
+
+  questionContent.appendChild(layout);
+
+
+  const submit =
+    document.createElement("button");
+
+  submit.className="match-submit";
+
+  submit.textContent="تأكيد الإجابات";
+
+  submit.onclick=checkMatch;
+
+  questionContent.appendChild(submit);
+
+}
+
+
+function checkMatch(){
+
+  if(questionLocked)return;
+
+  const q=getCurrentQuestion();
+
+  let correct=true;
+
+  q.pairs.forEach(pair=>{
+
+    if(matchAssignments[pair.name]!==pair.name){
+
+      correct=false;
+
+    }
+
+  });
+
+  questionLocked=true;
+
+  stopTimer();
+
+  if(correct){
+
+    document.querySelectorAll(".match-image")
+      .forEach(x=>x.classList.add("correct-match"));
+
+    showCorrect();
+
+  }else{
+
+    showWrong();
+
+  }
+
+}
+
+
+/* =========================================================
+   ترتيب
+========================================================= */
+
+function renderSort(q){
+
+  const list =
+    document.createElement("div");
+
+  list.className="sort-list";
+
+  const shuffled =
+    shuffleArray(q.items);
+
+  shuffled.forEach(name=>{
+
+    const item =
+      document.createElement("div");
+
+    item.className="sort-item";
+
+    item.textContent=name;
+
+    item.draggable=true;
+
+    item.dataset.name=name;
+
+    item.addEventListener("dragstart",()=>{
+      sortDragged=item;
+    });
+
+    item.addEventListener("dragover",e=>{
+      e.preventDefault();
+    });
+
+    item.addEventListener("drop",e=>{
+
+      e.preventDefault();
+
+      if(sortDragged && sortDragged!==item){
+
+        const rect =
+          item.getBoundingClientRect();
+
+        const after =
+          e.clientY > rect.top + rect.height/2;
+
+        if(after){
+          item.after(sortDragged);
+        }else{
+          item.before(sortDragged);
+        }
+
+      }
+
+    });
+
+    list.appendChild(item);
+
+  });
+
+  questionContent.appendChild(list);
+
+
+  const submit =
+    document.createElement("button");
+
+  submit.className="match-submit";
+
+  submit.textContent="تأكيد الترتيب";
+
+  submit.onclick=checkSort;
+
+  questionContent.appendChild(submit);
+
+}
+
+
+function checkSort(){
+
+  if(questionLocked)return;
+
+  const q=getCurrentQuestion();
+
+  const items =
+    [...document.querySelectorAll(".sort-item")]
+      .map(x=>x.dataset.name);
+
+  questionLocked=true;
+
+  stopTimer();
+
+  const correct =
+    items.every((x,i)=>x===q.correct[i]);
+
+  if(correct){
+
+    showCorrect();
+
+  }else{
+
+    showWrong();
+
+  }
+
+}
+
+
+/* =========================================================
+   النتائج
+========================================================= */
+
+function showCorrect(){
+
+  resultBox.textContent="✅ إجابة صحيحة!";
+
+  resultBox.className="result good";
+
+  addCoins(50);
+
+  nextBtn.classList.remove("hidden");
+
+}
+
+
+function showWrong(){
+
+  resultBox.textContent="❌ إجابة خاطئة!";
+
+  resultBox.className="result bad";
+
+  nextBtn.classList.remove("hidden");
+
+}
+
+
+/* =========================================================
+   المؤقت
+========================================================= */
+
+function startTimer(seconds){
+
+  stopTimer();
+
+  timeLeft=seconds;
+
+  timerEl.textContent=timeLeft;
+
+  timerInterval=setInterval(()=>{
+
+    timeLeft--;
+
+    timerEl.textContent=timeLeft;
+
+    if(timeLeft<=0){
+
+      stopTimer();
+
+      if(!questionLocked){
+
+        questionLocked=true;
+
+        resultBox.textContent="⏰ انتهى الوقت!";
+
+        resultBox.className="result bad";
+
+        nextBtn.classList.remove("hidden");
+
+      }
+
+    }
+
+  },1000);
+
+}
+
+
+function stopTimer(){
+
+  if(timerInterval){
+
+    clearInterval(timerInterval);
+
+    timerInterval=null;
+
+  }
+
+}
+
+
+/* =========================================================
+   التالي
+========================================================= */
+
+function nextQuestion(){
+
+  stopTimer();
+  stopMusic();
+
+  currentQuestion++;
+
+  if(currentQuestion>=stages[currentStage].length){
+
+    completeStage();
+
+    return;
+
+  }
+
+  renderQuestion();
+
+}
+
+
+function completeStage(){
+
+  if(currentStage>=completedStages){
+
+    completedStages=currentStage+1;
+
+    localStorage.setItem(
+      "zq_completed_stages",
+      completedStages
+    );
+
+  }
+
+  addCoins(250);
+
+  questionContent.innerHTML=`
+    <div style="text-align:center;padding:40px">
+      <div style="font-size:70px">🎉</div>
+      <h2 style="font-size:45px">مبروك!</h2>
+      <p style="font-size:30px">
+        خلصت المرحلة ${currentStage+1}
+      </p>
+      <p style="font-size:24px">
+        حصلت على 🪙 250 زكزكة
+      </p>
+    </div>
+  `;
+
+  resultBox.textContent="";
+
+  nextBtn.classList.add("hidden");
+
+  const button =
+    document.createElement("button");
+
+  button.className="next-btn";
+
+  button.textContent="العودة للمراحل";
+
+  button.onclick=showStages;
+
+  questionContent.appendChild(button);
+
+}
+
+
+/* =========================================================
+   المتجر
+========================================================= */
+
+function openShop(){
+
+  document
+    .getElementById("shopModal")
+    .classList.remove("hidden");
+
+  renderShop();
+
+}
+
+
+function closeShop(){
+
+  document
+    .getElementById("shopModal")
+    .classList.add("hidden");
+
+}
+
+
+function renderShop(){
+
+  const grid =
+    document.getElementById("shopGrid");
+
+  grid.innerHTML="";
+
+
+  backgrounds.forEach(bg=>{
+
+    const item =
+      document.createElement("div");
+
+    item.className="shop-item";
+
+    const owned =
+      ownedBackgrounds.includes(bg.id);
+
+    item.innerHTML=`
+
+      <img src="${bg.url}" alt="${bg.name}">
+
+      <h3>${bg.name}</h3>
+
+      <button
+        class="buy-btn ${owned ? "owned":""}"
+        ${owned ? "":`onclick="buyBackground(${bg.id})"`}
+      >
+        ${owned ? "✓ مملوكة" : `🪙 ${bg.price}`}
+      </button>
+
+    `;
+
+    grid.appendChild(item);
+
+  });
+
+}
+
+
+function buyBackground(id){
+
+  const bg =
+    backgrounds.find(x=>x.id===id);
+
+  if(!bg)return;
+
+  if(ownedBackgrounds.includes(id)){
+
+    selectBackground(id);
+
+    return;
+
+  }
+
+  if(coins<bg.price){
+
+    alert("ما معك زكزكات كافية 😅");
+
+    return;
+
+  }
+
+  coins-=bg.price;
+
+  ownedBackgrounds.push(id);
+
+  localStorage.setItem(
+    "zq_backgrounds",
+    JSON.stringify(ownedBackgrounds)
+  );
+
+  updateCoins();
+
+  selectBackground(id);
+
+  renderShop();
+
+}
+
+
+function selectBackground(id){
+
+  selectedBackground=id;
+
+  localStorage.setItem(
+    "zq_selected_background",
+    id
+  );
+
+  applyBackground();
+
+  renderShop();
+
+}
+
+
+/* =========================================================
+   المهام
+========================================================= */
+
+function openTasks(){
+
+  document
+    .getElementById("tasksModal")
+    .classList.remove("hidden");
+
+  renderTasks();
+
+}
+
+
+function closeTasks(){
+
+  document
+    .getElementById("tasksModal")
+    .classList.add("hidden");
+
+}
+
+
+function renderTasks(){
+
+  const box =
+    document.getElementById("tasksContent");
+
+  const completedQuestions =
+    stages
+      .slice(0,completedStages)
+      .reduce((sum,s)=>sum+s.length,0);
+
+  const totalQuestions =
+    stages.reduce((sum,s)=>sum+s.length,0);
+
+  const stageProgress =
+    Math.min(completedStages,10);
+
+  const questionProgress =
+    Math.min(completedQuestions,20);
+
+  box.innerHTML="";
+
+  box.innerHTML+=`
+
+    <div class="task">
+
+      <div class="task-title">
+        🎮 خلّص مرحلة واحدة
+      </div>
+
+      <div>
+        ${Math.min(stageProgress,1)} / 1
+      </div>
+
+      <div class="task-progress">
+        <div style="width:${stageProgress>0?100:0}%"></div>
+      </div>
+
+    </div>
+
+  `;
+
+
+  box.innerHTML+=`
+
+    <div class="task">
+
+      <div class="task-title">
+        🧠 جاوب على 20 سؤال
+      </div>
+
+      <div>
+        ${Math.min(questionProgress,20)} / 20
+      </div>
+
+      <div class="task-progress">
+        <div style="width:${Math.min(questionProgress/20*100,100)}%"></div>
+      </div>
+
+    </div>
+
+  `;
+
+
+  const backgroundTask =
+    ownedBackgrounds.length>=2;
+
+  box.innerHTML+=`
+
+    <div class="task">
+
+      <div class="task-title">
+        🖼️ امتلك خلفيتين
+      </div>
+
+      <div>
+        ${Math.min(ownedBackgrounds.length,2)} / 2
+      </div>
+
+      <div class="task-progress">
+        <div style="width:${Math.min(ownedBackgrounds.length/2*100,100)}%"></div>
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   موسيقى يوتيوب
+========================================================= */
+
+function loadYouTubeAPI(){
+
+  if(window.YT && window.YT.Player){
+
+    createYouTubePlayer();
+
+    return;
+
+  }
+
+  const tag =
+    document.createElement("script");
+
+  tag.src=
+    "https://www.youtube.com/iframe_api";
+
+  document.head.appendChild(tag);
+
+}
+
+
+function onYouTubeIframeAPIReady(){
+
+  createYouTubePlayer();
+
+}
+
+
+function createYouTubePlayer(){
+
+  if(musicPlayer)return;
+
+  musicPlayer =
+    new YT.Player("youtubePlayer",{
+
+      height:"1",
+      width:"1",
+
+      videoId:"7kR1TX6O6B4",
+
+      playerVars:{
+        autoplay:0,
+        controls:0,
+        loop:1,
+        playlist:"7kR1TX6O6B4"
+      }
+
+    });
+
+}
+
+
+function playMusic(videoId){
+
+  loadYouTubeAPI();
+
+  setTimeout(()=>{
+
+    if(musicPlayer){
+
+      musicPlayer.loadVideoById(videoId);
+
+      musicPlayer.playVideo();
+
+      musicPlaying=true;
+
+    }
+
+  },700);
+
+}
+
+
+function stopMusic(){
+
+  if(musicPlayer){
+
+    try{
+      musicPlayer.stopVideo();
+    }catch(e){}
+
+  }
+
+  musicPlaying=false;
+
+}
+
+
+/* =========================================================
+   بدء التطبيق
+========================================================= */
+
+loadYouTubeAPI();
+
+</script>
 
 </body>
 </html>
